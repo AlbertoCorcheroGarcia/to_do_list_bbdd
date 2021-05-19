@@ -31,6 +31,14 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
+    def to_print_task(self):
+        return{
+            "id":self.id,
+            "text":self.text,
+            "status":self.status,
+            "id_user":self.id_user
+        }
+
 class Task(db.Model):
     __tablename__ = 'task'
     id = db.Column(db.Integer, primary_key=True)
