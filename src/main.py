@@ -31,7 +31,44 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/user', methods=['GET'])
-def handle_hello():
+def user():
+
+    response_body = {
+        "msg": "Hello, this is your GET /user response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/user', methods=['GET'])
+def user_all_get():
+
+    response_body = {
+        "msg": "Hello, this is your get all /user response "
+    }
+
+    return jsonify(response_body), 200
+
+#app.route('/user/<email>', methods=['GET'])
+#def user_by_email_get(): 
+#    user=User.get_user_by_email(email)
+#    response_body = {
+#        "msg": "Hello, this is your GET /user response ",
+#        "user": str(user)
+#    }
+
+#    return jsonify(response_body), 200
+
+app.route('/user', methods=['GET'])
+def all_tasks_get(): 
+
+    response_body = {
+        "msg": "Hello, this is your GET /user response "
+    }
+
+    return jsonify(response_body), 200
+
+app.route('/user', methods=['GET'])
+def task_by_user_get(): 
 
     response_body = {
         "msg": "Hello, this is your GET /user response "
