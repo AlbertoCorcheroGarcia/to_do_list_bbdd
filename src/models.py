@@ -36,13 +36,14 @@ class User(db.Model):
         db.session.commit()
         return self.to_dict
 
-
+#hacer con metodh y la comprension list 
     def get_all():
         users = User.query.all()
         users_dict = list(map(lambda x: x.to_dict(), users))
         return users_dict
         
-        
+#hacer con metodh y la comprension list 
+
     def get_by_email(email):
         user = User.query.filter_by(email=email)
         user_dict = list(map(lambda x: x.to_dict(), user))
