@@ -27,6 +27,11 @@ class User(db.Model):
 
             # do not serialize the password, its a security breach
         }
+        #creacion del usuario
+    def create_user(self):
+        db.session.add(self)
+        db.session.commit()
+        return self.to_dict
 
 
     def get_all():
@@ -67,4 +72,3 @@ class Task(db.Model):
         to_print_task=Task.query.filter_by(id_user=id_user)
         to_print_task_result = list(map(lambda x: x.to_print_task(), to_print_task))
         return to_print_task_result
-

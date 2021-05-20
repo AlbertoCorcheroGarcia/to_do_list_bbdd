@@ -20,6 +20,13 @@ db.init_app(app)
 CORS(app)
 setup_admin(app)
 
+#creacion del usuario
+@app.route('/user',methods=['POST'])
+def create_user():
+    email=request.json.get('email',None)
+
+new_user =
+
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
