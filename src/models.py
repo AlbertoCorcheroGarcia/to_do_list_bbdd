@@ -27,6 +27,16 @@ class User(db.Model):
 
             # do not serialize the password, its a security breach
         }
+    @classmethod
+    def get_all(cls):
+        users=cls.query.all()
+        return [user.to_dict()for user in users]
+
+
+
+    
+
+
         #creacion del usuario
     def create_user(self):
         db.session.add(self)
@@ -62,13 +72,22 @@ class Task(db.Model):
             "status":self.status,
             "id_user":self.id_user,
         }
-        
+    """
     def get_task():
         to_print_task=Task.query.all()
+                #cambiar el list por la captura de pantalla de la iteracion de listas
+                               #V#
         to_print_task_result = list(map(lambda x: x.to_print_task(), to_print_task))
         return to_print_task_result
 
     def get_task_user(id_user):
         to_print_task=Task.query.filter_by(id_user=id_user)
+        #cambiar el list por la captura de pantalla de la iteracion de listas
+                               #V#
         to_print_task_result = list(map(lambda x: x.to_print_task(), to_print_task))
         return to_print_task_result
+"""
+    @classmethod
+    def get_by_email(cls,email):
+        tasks=cls.query.all()
+        return [tasks.to_print_task()for task in tasks]
