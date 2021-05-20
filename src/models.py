@@ -40,7 +40,7 @@ class User(db.Model):
         user_dict = list(map(lambda x: x.to_dict(), user))
         return user_dict
 
-  
+    
 
 class Task(db.Model):
     __tablename__ = 'task'
@@ -50,17 +50,6 @@ class Task(db.Model):
     id_user = db.Column (db.Integer, ForeignKey("user.id"))
     #, back_populates="user")
 
-    def get_task():
-        task_dict=Task.query.all()
-        task_dict = list(map(lambda x: x.to_dict(), Task))
-        return task_dict
-
-    def get_task_user(id_user):
-        task_user=Task.query.filter_by(id_user=1)
-        task_user = list(map(lambda x: x.to_dict(), task_user))
-        return task_user
-
-
     def to_print_task(self):
         return{
             "id":self.id,
@@ -68,3 +57,14 @@ class Task(db.Model):
             "status":self.status,
             "id_user":self.id_user,
         }
+        
+    def get_task():
+        to_print_task=Task.query.all()
+        to_print_task_result = list(map(lambda x: x.to_print_task(), to_print_task))
+        return to_print_task_result
+
+    def get_task_user(id_user):
+        to_print_task=Task.query.filter_by(id_user=id_user)
+        to_print_task_result = list(map(lambda x: x.to_print_task(), to_print_task))
+        return to_print_task_result
+

@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User,Task
 #from models import Person
 
 app = Flask(__name__)
@@ -42,8 +42,8 @@ def user_all_get():
 
 #all user by email  -------    2   ------
 @app.route('/user/<email>', methods=['GET'])
-def user_by_email_get(): 
-    user_by_email=User.get_user_by_email(email)
+def user_by_email_get(email):
+    user_by_email=User.get_by_email(email)
     response_body = {
         "msg": "Hello, this is your GET /user response ",
         #"user": str(user)
@@ -51,22 +51,20 @@ def user_by_email_get():
     return jsonify(user_by_email), 200
 
 #all task  -------    3   ------
-app.route('/task', methods=['GET'])
+@app.route('/task', methods=['GET'])
 def all_tasks_get(): 
-    all_tasks=Task.get.all()
+    all_tasks=Task.get_task()
     response_body = {
         "msg": "Hello, this is your response for all task "
     }
     return jsonify(all_tasks), 200
 
 #all task by user  -------    4   ------
-app.route('/task', methods=['GET'])
-def task_by_user_get(): 
-    task_by_user=Task.get.id_user()
-    response_body = {
-        "msg": "Hello, this is your task by user response "
-    }
-    return jsonify(response_body), 200
+@app.route('/task/<user_id>', methods=['GET'])
+def task_by_user_get(user_id): 
+    task_by_user=Task.get_task_user(user_id)
+    
+    return jsonify(task_by_user), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
