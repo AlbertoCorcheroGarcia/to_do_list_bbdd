@@ -15,18 +15,17 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(True), unique=False, nullable=False)
     createNote = relationship('Task')
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.email
 
 
     def to_dict(self):
         return {
             "id": self.id,
-            "email": self.email,
-
+            "email": self.email
             # do not serialize the password, its a security breach
         }
 
@@ -34,7 +33,7 @@ class User(db.Model):
     def create_user(self):
         db.session.add(self)
         db.session.commit()
-        return self.to_dict
+        return self.to_dict()
 
 #hacer con metodh y la comprension list 
     def get_all():
@@ -59,7 +58,7 @@ class Task(db.Model):
     id_user = db.Column (db.Integer, ForeignKey("user.id"))
     #, back_populates="user")
 
-    def to_print_task(self):
+    def to_dict(self):
         return{
             "id":self.id,
             "text":self.text,
@@ -67,17 +66,18 @@ class Task(db.Model):
             "id_user":self.id_user,
         }
 
-    @classmethod#era por esto tio 
+    @classmethod
     def get_task(cls):
-        to_print_task=Task.query.all()
-            
+        #to_print_task=cls.query.all()
         tasks=cls.query.all()
-        return [tasks.to_print_task()for task in tasks]
+
+        return [task.to_dict() for task in tasks]
+
     @classmethod
     def get_task_user(cls,email):
-        to_print_task=Task.query.filter_by(id_user=id_user)
+        #to_print_task=cls.query.filter_by(id_user=id_user)
         users=cls.query.all()
-        return [user.to_print_task()for user in users]
+        return [user.to_dict()for user in users]
 """
     @classmethod
     def get_all(cls):
