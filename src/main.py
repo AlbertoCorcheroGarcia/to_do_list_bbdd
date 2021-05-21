@@ -10,6 +10,8 @@ from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User,Task
 from sqlalchemy import exc
+from flask_sqlalchemy import SQLAlchemy
+
 
 #from models import Person
 
@@ -22,31 +24,25 @@ db.init_app(app)
 CORS(app)
 setup_admin(app)
 
+
+
 #creacion del usuario
+
 @app.route('/user',methods=['POST'])
 def create_user():
-    email =request.json.get('email', None)
+    email= request.json.get('email', None)
+
     if not email:
-        return jsonify({})
+        return jsonify({'error': "Missing parametre"}), 403
+    user = User(email=email)
+    print(user)
     try:
-        user = user.create_user()
+        user =user.create_user()
         return jsonify(user), 201
     except exc.IntegrityError:
+        print(exc.IntegrityError)
         return jsonify({'error': "Fail in data"}), 404
-
-
-#creacion del task
-@app.route('/task',methods=['POST'])
-def create_task():
-    text=request.json.get('text',None)
-    if not text:
-        return jsonify({})
-    try:
-        task =task.create()
-        return jsonify(task), 201
-    except exc.IntegrityError:
-        return jsonify({'error': "Fail in data"}), 404
-     
+   
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -80,10 +76,10 @@ def user_by_email_get(email):
 """
 @app.route('/user', methods=['POST'])
 def create_user():
-    email, password, = request.json.get(
+    email, is_active, = request.json.get(
         "email", None
     ), request.json.get(
-        "password", None
+        "is_active", None
     )
     if not email or not password:
         return jsonify({'error': "Missing parametre"}), 403
